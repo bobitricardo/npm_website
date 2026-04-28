@@ -960,53 +960,72 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             window.open(`https://wa.me/${adminWA}?text=${pesan}`, '_blank');
         }
     </script>
-   <script>
+<script>
   window.addEventListener('DOMContentLoaded', (event) => {
     const urlParams = new URLSearchParams(window.location.search);
-    const typeParam = urlParams.get('type');
+    const type = urlParams.get('type');
+    const unit = urlParams.get('unit'); // Untuk Studio, 2BR, Ruko, Kios
+    const opt = urlParams.get('opt');   // Untuk pilihan di Form Owner & Jual/Beli Cepat
 
-    if (typeParam) {
-      const minatSelect = document.getElementById('s_minat');
-      const jenisSewa = document.getElementById('s_jenis_sewa');
-      const masaShort = document.getElementById('s_masa_short');
-      const masaLong = document.getElementById('s_masa_long');
+    if (type) {
+      // --- GRUP 1, 2, 3 (FORM PENCARI) ---
+      const sMinat = document.getElementById('s_minat');
+      const sKondisi = document.getElementById('s_kondisi');
+      const sJenisSewa = document.getElementById('s_jenis_sewa');
+      const sMasaShort = document.getElementById('s_masa_short');
+      const sMasaLong = document.getElementById('s_masa_long');
+      const sAset = document.getElementById('s_aset');
 
-      // 1. Pastikan selalu pilih "Ingin Sewa" dan buka formnya
-      if (minatSelect) {
-        minatSelect.value = "Ingin Sewa";
-        toggleForm(); 
-      }
-
-      // 2. Logika Pemilihan Berdasarkan Parameter
-      if (typeParam === 'transit' || typeParam === 'harian') {
-        // Mode Short Term
-        if (jenisSewa) jenisSewa.value = "Short-term Rental";
-        toggleForm();
-        if (typeParam === 'transit' && masaShort) masaShort.value = "3 Jam";
-        if (typeParam === 'harian' && masaShort) masaShort.value = "Harian";
-      } 
-      else if (typeParam === 'bulanan' || typeParam === 'tahunan') {
-        // Mode Long Term
-        if (jenisSewa) jenisSewa.value = "Long-term Rental";
-        toggleForm();
-        if (typeParam === 'bulanan' && masaLong) masaLong.value = "Bulanan";
-        if (typeParam === 'tahunan' && masaLong) masaLong.value = "Tahunan";
-      }
-        // Logika Tambahan untuk Beli Unit (Primary & Secondary)
-      if (typeParam === 'primary' || typeParam === 'secondary') {
-        if (minatSelect) {
-          minatSelect.value = "Ingin Beli";
-          toggleForm(); // Buka form beli
+      // Logika Sewa (Grup 1)
+      if (['transit', 'harian', 'bulanan', 'tahunan'].includes(type)) {
+        if (sMinat) { sMinat.value = "Ingin Sewa"; toggleForm(); }
+        if (type === 'transit' || type === 'harian') {
+          if (sJenisSewa) sJenisSewa.value = "Short-term Rental";
+          toggleForm();
+          if (type === 'transit' && sMasaShort) sMasaShort.value = "3 Jam";
+          if (type === 'harian' && sMasaShort) sMasaShort.value = "Harian";
+        } else {
+          if (sJenisSewa) sJenisSewa.value = "Long-term Rental";
+          toggleForm();
+          if (type === 'bulanan' && sMasaLong) sMasaLong.value = "Bulanan";
+          if (type === 'tahunan' && sMasaLong) sMasaLong.value = "Tahunan";
         }
-        
-        const kondisiSelect = document.getElementById('s_kondisi');
-        if (kondisiSelect) {
-          kondisiSelect.value = (typeParam === 'primary') ? "Baru (Primary)" : "Second (Secondary)";
-        }
+        document.getElementById('form-pencari').scrollIntoView({ behavior: 'smooth' });
       }
 
-      // 3. Auto-scroll ke form (Cadangan jika jangkar # gagal di beberapa browser)
-      document.getElementById('form-pencari').scrollIntoView({ behavior: 'smooth' });
+      // Logika Beli (Grup 2 & 3)
+      if (type === 'primary' || type === 'secondary') {
+        if (sMinat) { sMinat.value = "Ingin Beli"; toggleForm(); }
+        if (sKondisi) sKondisi.value = (type === 'primary') ? "Baru (Primary)" : "Second (Secondary)";
+        if (sAset && unit) {
+          if (unit === 'studio') sAset.value = "Apartemen Studio";
+          if (unit === '2br') sAset.value = "Apartemen 2BR";
+          if (unit === 'ruko') sAset.value = "Ruko";
+          if (unit === 'kios') sAset.value = "Kios";
+        }
+        document.getElementById('form-pencari').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // --- GRUP 4 (FORM OWNER / TITIP KUNCI) ---
+      if (type === 'titip') {
+        const oOpsi = document.getElementById('o_opsi');
+        if (oOpsi && opt) {
+          if (opt === 'jual') oOpsi.value = "Titip Jual";
+          if (opt === 'sewa') oOpsi.value = "Titip Sewa";
+        }
+        document.getElementById('titip-kunci').scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // --- GRUP 5 (FORM JUAL/BELI CEPAT) ---
+      if (type === 'urgent') {
+        const jbOpsi = document.getElementById('jb_opsi');
+        if (jbOpsi && opt) {
+          if (opt === 'jual_cepat') jbOpsi.value = "Jual Cepat";
+          if (opt === 'beli_cepat') jbOpsi.value = "Beli Cepat*";
+          toggleJBForm();
+        }
+        document.getElementById('jual-beli-cepat').scrollIntoView({ behavior: 'smooth' });
+      }
     }
   });
 </script>
