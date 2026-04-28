@@ -925,6 +925,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         function sendSeekerWA(e) {
             e.preventDefault();
+            gtag('event', 'conversion', {'send_to': 'AW-18124541821/wQh-CPKq5qMcEP2eusJD'});
             let pesan = `Halo NPM, saya tertarik mencari properti.%0A%0A*Nama:* ${document.getElementById('s_nama').value}%0A*No WA:* ${document.getElementById('s_wa').value}%0A*Minat:* ${document.getElementById('s_minat').value}`;
 
             if (document.getElementById('s_minat').value === 'Ingin Beli') {
@@ -944,12 +945,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         function sendOwnerWA(e) {
             e.preventDefault();
+            gtag('event', 'conversion', {'send_to': 'AW-18124541821/wQh-CPKq5qMcEP2eusJD'});
             let pesan = `Halo NPM, saya ingin *${document.getElementById('o_opsi').value}* unit saya.%0A%0A*Nama:* ${document.getElementById('o_nama').value}%0A*No WA:* ${document.getElementById('o_wa').value}%0A*Tower:* ${document.getElementById('o_tower').value}%0A*Lantai:* ${document.getElementById('o_lantai').value}%0A*No Unit:* ${document.getElementById('o_nomor').value}%0A*Tipe:* ${document.getElementById('o_tipe').value}%0A*Kelengkapan:* ${document.getElementById('o_kelengkapan').value}%0A%0AMohon bantuannya.`;
             window.open(`https://wa.me/${adminWA}?text=${pesan}`, '_blank');
         }
 
         function sendJBWA(e) {
             e.preventDefault();
+            gtag('event', 'conversion', {'send_to': 'AW-18124541821/wQh-CPKq5qMcEP2eusJD'});
             let opsi = document.getElementById('jb_opsi').value;
             let pesan = `Halo NPM, saya ingin *${opsi.replace('*','')}* di Green Pramuka City.%0A%0A*Nama:* ${document.getElementById('jb_nama').value}%0A*No WA:* ${document.getElementById('jb_wa').value}`;
             
