@@ -992,6 +992,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         if (typeParam === 'bulanan' && masaLong) masaLong.value = "Bulanan";
         if (typeParam === 'tahunan' && masaLong) masaLong.value = "Tahunan";
       }
+        // Logika Tambahan untuk Beli Unit (Primary & Secondary)
+      if (typeParam === 'primary' || typeParam === 'secondary') {
+        if (minatSelect) {
+          minatSelect.value = "Ingin Beli";
+          toggleForm(); // Buka form beli
+        }
+        
+        const kondisiSelect = document.getElementById('s_kondisi');
+        if (kondisiSelect) {
+          kondisiSelect.value = (typeParam === 'primary') ? "Baru (Primary)" : "Second (Secondary)";
+        }
+      }
 
       // 3. Auto-scroll ke form (Cadangan jika jangkar # gagal di beberapa browser)
       document.getElementById('form-pencari').scrollIntoView({ behavior: 'smooth' });
