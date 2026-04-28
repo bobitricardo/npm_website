@@ -960,34 +960,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             window.open(`https://wa.me/${adminWA}?text=${pesan}`, '_blank');
         }
     </script>
-    <script>
+   <script>
   window.addEventListener('DOMContentLoaded', (event) => {
-    // 1. Ambil parameter dari URL
+    // 1. Ambil parameter 'type' dari URL (contoh: ?type=transit)
     const urlParams = new URLSearchParams(window.location.search);
     const typeParam = urlParams.get('type');
 
-    // 2. Jika parameternya adalah 'transit'
-    if (typeParam === 'transit') {
+    if (typeParam) {
+      // 2. Pastikan form dalam mode "Ingin Sewa" agar dropdown sewa muncul
       const minatSelect = document.getElementById('s_minat');
+      if (minatSelect) {
+        minatSelect.value = "Ingin Sewa";
+        toggleForm(); // Jalankan fungsi bawaan Anda untuk memunculkan form sewa
+      }
+
+      // 3. Eksekusi pengisian otomatis berdasarkan parameter
+      const masaShort = document.getElementById('s_masa_short');
       const jenisSewa = document.getElementById('s_jenis_sewa');
 
-      if (minatSelect && jenisSewa) {
-        // Pilih 'Ingin Sewa'
-        minatSelect.value = "Ingin Sewa";
-        
-        // Jalankan fungsi bawaan Anda untuk memunculkan kolom sewa
+      if (typeParam === 'transit') {
+        if (jenisSewa) jenisSewa.value = "Short-term Rental";
         toggleForm(); 
+        if (masaShort) masaShort.value = "3 Jam";
+      } 
+      else if (typeParam === 'harian') {
+        if (jenisSewa) jenisSewa.value = "Short-term Rental";
+        toggleForm();
+        if (masaShort) masaShort.value = "Harian";
+      }
+      else if (typeParam === 'longterm') {
+        if (jenisSewa) jenisSewa.value = "Long-term Rental";
+        toggleForm();
+      }
 
-        // Pilih 'Short-term Rental'
-        jenisSewa.value = "Short-term Rental";
-        
-        // Jalankan lagi toggle agar kolom Masa Sewa & Tipe Unit muncul
-        toggleForm(); 
-
-        // Highlight form agar user fokus ke sana
-        const formBox = document.getElementById('formSeeker');
-        formBox.style.border = "2px solid #14b8a6"; // Warna teal
-        setTimeout(() => { formBox.style.border = "none"; }, 3000);
+      // 4. Efek visual: Beri highlight kuning sebentar agar user tahu form sudah terisi
+      const targetForm = document.getElementById('formSeeker');
+      if (targetForm) {
+        targetForm.style.transition = "all 0.5s";
+        targetForm.style.backgroundColor = "#fef3c7"; // Kuning muda
+        setTimeout(() => { targetForm.style.backgroundColor = ""; }, 1500);
       }
     }
   });
