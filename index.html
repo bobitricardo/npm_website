@@ -962,44 +962,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </script>
    <script>
   window.addEventListener('DOMContentLoaded', (event) => {
-    // 1. Ambil parameter 'type' dari URL (contoh: ?type=transit)
     const urlParams = new URLSearchParams(window.location.search);
     const typeParam = urlParams.get('type');
 
     if (typeParam) {
-      // 2. Pastikan form dalam mode "Ingin Sewa" agar dropdown sewa muncul
       const minatSelect = document.getElementById('s_minat');
+      const jenisSewa = document.getElementById('s_jenis_sewa');
+      const masaShort = document.getElementById('s_masa_short');
+      const masaLong = document.getElementById('s_masa_long');
+
+      // 1. Pastikan selalu pilih "Ingin Sewa" dan buka formnya
       if (minatSelect) {
         minatSelect.value = "Ingin Sewa";
-        toggleForm(); // Jalankan fungsi bawaan Anda untuk memunculkan form sewa
+        toggleForm(); 
       }
 
-      // 3. Eksekusi pengisian otomatis berdasarkan parameter
-      const masaShort = document.getElementById('s_masa_short');
-      const jenisSewa = document.getElementById('s_jenis_sewa');
-
-      if (typeParam === 'transit') {
-        if (jenisSewa) jenisSewa.value = "Short-term Rental";
-        toggleForm(); 
-        if (masaShort) masaShort.value = "3 Jam";
-      } 
-      else if (typeParam === 'harian') {
+      // 2. Logika Pemilihan Berdasarkan Parameter
+      if (typeParam === 'transit' || typeParam === 'harian') {
+        // Mode Short Term
         if (jenisSewa) jenisSewa.value = "Short-term Rental";
         toggleForm();
-        if (masaShort) masaShort.value = "Harian";
-      }
-      else if (typeParam === 'longterm') {
+        if (typeParam === 'transit' && masaShort) masaShort.value = "3 Jam";
+        if (typeParam === 'harian' && masaShort) masaShort.value = "Harian";
+      } 
+      else if (typeParam === 'bulanan' || typeParam === 'tahunan') {
+        // Mode Long Term
         if (jenisSewa) jenisSewa.value = "Long-term Rental";
         toggleForm();
+        if (typeParam === 'bulanan' && masaLong) masaLong.value = "Bulanan";
+        if (typeParam === 'tahunan' && masaLong) masaLong.value = "Tahunan";
       }
 
-      // 4. Efek visual: Beri highlight kuning sebentar agar user tahu form sudah terisi
-      const targetForm = document.getElementById('formSeeker');
-      if (targetForm) {
-        targetForm.style.transition = "all 0.5s";
-        targetForm.style.backgroundColor = "#fef3c7"; // Kuning muda
-        setTimeout(() => { targetForm.style.backgroundColor = ""; }, 1500);
-      }
+      // 3. Auto-scroll ke form (Cadangan jika jangkar # gagal di beberapa browser)
+      document.getElementById('form-pencari').scrollIntoView({ behavior: 'smooth' });
     }
   });
 </script>
