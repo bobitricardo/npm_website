@@ -960,5 +960,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             window.open(`https://wa.me/${adminWA}?text=${pesan}`, '_blank');
         }
     </script>
+    <script>
+  window.addEventListener('DOMContentLoaded', (event) => {
+    // 1. Ambil parameter dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const typeParam = urlParams.get('type');
+
+    // 2. Jika parameternya adalah 'transit'
+    if (typeParam === 'transit') {
+      const minatSelect = document.getElementById('s_minat');
+      const jenisSewa = document.getElementById('s_jenis_sewa');
+
+      if (minatSelect && jenisSewa) {
+        // Pilih 'Ingin Sewa'
+        minatSelect.value = "Ingin Sewa";
+        
+        // Jalankan fungsi bawaan Anda untuk memunculkan kolom sewa
+        toggleForm(); 
+
+        // Pilih 'Short-term Rental'
+        jenisSewa.value = "Short-term Rental";
+        
+        // Jalankan lagi toggle agar kolom Masa Sewa & Tipe Unit muncul
+        toggleForm(); 
+
+        // Highlight form agar user fokus ke sana
+        const formBox = document.getElementById('formSeeker');
+        formBox.style.border = "2px solid #14b8a6"; // Warna teal
+        setTimeout(() => { formBox.style.border = "none"; }, 3000);
+      }
+    }
+  });
+</script>
 </body>
 </html>
