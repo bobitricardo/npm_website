@@ -12,11 +12,21 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KMCM2GRT');</script>
     <link rel="icon" href="images/favicon.webp" type="image/png">
+
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-        
+        /* Aturan @import Google Fonts telah dihapus dari sini demi kecepatan FCP/LCP */
         body {
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
@@ -711,7 +721,7 @@
     </footer>
 
     <script>
-        const adminWA = "62811193090"; // <-- JANGAN LUPA UBAH NOMOR INI
+        const adminWA = "62811193090";
 
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
@@ -722,7 +732,6 @@
             toggleForm();
             updateKelengkapanSeeker();
             
-            // Animasi Counter Angka
             const counter = document.getElementById('unit-counter');
             if(counter) {
                 const target = +counter.getAttribute('data-target');
@@ -748,17 +757,9 @@
 
             let options = [];
             if (masaLong === '6 Bulan' || masaLong === 'Tahunan') {
-                options = [
-                    "Tipe Studio", 
-                    "Tipe 2BR", 
-                    "Ruko", 
-                    "Kios"
-                ];
+                options = ["Tipe Studio", "Tipe 2BR", "Ruko", "Kios"];
             } else {
-                options = [
-                    "Tipe Studio", 
-                    "Tipe 2BR"
-                ];
+                options = ["Tipe Studio", "Tipe 2BR"];
             }
 
             options.forEach(opt => {
@@ -768,7 +769,6 @@
                 tipeLongSelect.appendChild(optionElement);
             });
 
-            // Trigger update kelengkapan karena tipe unit bisa berubah
             updateKelengkapanSeeker();
         }
 
@@ -787,14 +787,11 @@
 
             if (minat === 'Ingin Sewa') {
                 if (jenisSewa === 'Short-term Rental') {
-                    // Short term rent selalu fully furnished
                     options = ["Fully Furnished (Lengkap)"];
                 } else if (jenisSewa === 'Long-term Rental') {
                     if (masaLong === 'Bulanan' || masaLong === '3 Bulan') {
-                        // Bulanan / 3 Bulan selalu fully furnished
                         options = ["Fully Furnished (Lengkap)"];
                     } else {
-                        // 6 Bulan / Tahunan
                         if (tipeLong === 'Ruko' || tipeLong === 'Kios') {
                             options = ["Unfurnished (Kosong)"];
                         } else {
@@ -810,7 +807,6 @@
                 }
             }
 
-            // Tambahkan options ke DOM
             options.forEach(opt => {
                 const optionElement = document.createElement('option');
                 optionElement.value = opt;
@@ -818,7 +814,6 @@
                 kelengkapanSelect.appendChild(optionElement);
             });
 
-            // Kembalikan value sebelumnya jika masih relevan
             if (options.includes(currentValue)) {
                 kelengkapanSelect.value = currentValue;
             }
@@ -846,7 +841,6 @@
                 }
             }
 
-            // Update pilihan kelengkapan setiap kali form berubah
             updateKelengkapanSeeker();
         }
 
@@ -914,11 +908,10 @@
   window.addEventListener('DOMContentLoaded', (event) => {
     const urlParams = new URLSearchParams(window.location.search);
     const type = urlParams.get('type');
-    const unit = urlParams.get('unit'); // Untuk Studio, 2BR, Ruko, Kios
-    const opt = urlParams.get('opt');   // Untuk pilihan di Form Owner & Jual/Beli Cepat
+    const unit = urlParams.get('unit'); 
+    const opt = urlParams.get('opt');   
 
     if (type) {
-      // --- GRUP 1, 2, 3 (FORM PENCARI) ---
       const sMinat = document.getElementById('s_minat');
       const sKondisi = document.getElementById('s_kondisi');
       const sJenisSewa = document.getElementById('s_jenis_sewa');
@@ -926,7 +919,6 @@
       const sMasaLong = document.getElementById('s_masa_long');
       const sAset = document.getElementById('s_aset');
 
-      // Logika Sewa (Grup 1)
       if (['transit', 'harian', 'bulanan', 'tahunan'].includes(type)) {
         if (sMinat) { sMinat.value = "Ingin Sewa"; toggleForm(); }
         if (type === 'transit' || type === 'harian') {
@@ -943,7 +935,6 @@
         document.getElementById('form-pencari').scrollIntoView({ behavior: 'smooth' });
       }
 
-      // Logika Beli (Grup 2 & 3)
       if (type === 'primary' || type === 'secondary') {
         if (sMinat) { sMinat.value = "Ingin Beli"; toggleForm(); }
         if (sKondisi) sKondisi.value = (type === 'primary') ? "Baru (Primary)" : "Second (Secondary)";
@@ -956,7 +947,6 @@
         document.getElementById('form-pencari').scrollIntoView({ behavior: 'smooth' });
       }
 
-      // --- GRUP 4 (FORM OWNER / TITIP KUNCI) ---
       if (type === 'titip') {
         const oOpsi = document.getElementById('o_opsi');
         if (oOpsi && opt) {
@@ -966,7 +956,6 @@
         document.getElementById('titip-kunci').scrollIntoView({ behavior: 'smooth' });
       }
 
-      // --- GRUP 5 (FORM JUAL/BELI CEPAT) ---
       if (type === 'urgent') {
         const jbOpsi = document.getElementById('jb_opsi');
         if (jbOpsi && opt) {
